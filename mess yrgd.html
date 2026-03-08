@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hostel Mess Attendance</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+background:#f4f4f4;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+width:85%;
+background:white;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:8px;
+}
+
+th{
+background:#3498db;
+color:white;
+}
+
+.green{accent-color:green;}
+.red{accent-color:red;}
+.yellow{accent-color:orange;}
+
+.legend{
+margin:15px;
+font-size:17px;
+}
+
+button{
+margin:15px;
+padding:10px 20px;
+background:#27ae60;
+color:white;
+border:none;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Hostel Mess Attendance</h2>
+
+<div class="legend">
+🟢 Present (खाना खाया) |
+🔴 Hostel Absent |
+🟡 Hostel में है लेकिन खाना नहीं खाया
+</div>
+
+<table id="table">
+
+<tr>
+<th>Day</th>
+<th>Morning</th>
+<th>Evening</th>
+</tr>
+
+</table>
+
+<button onclick="calculate()">Calculate Attendance</button>
+
+<p id="result"></p>
+
+<script>
+
+let table=document.getElementById("table");
+
+for(let i=1;i<=30;i++){
+
+let row=table.insertRow();
+
+row.innerHTML=`
+
+<td>Day ${i}</td>
+
+<td>
+<input type="radio" name="m${i}" value="present" class="green">
+<input type="radio" name="m${i}" value="absent" class="red">
+<input type="radio" name="m${i}" value="noteat" class="yellow">
+</td>
+
+<td>
+<input type="radio" name="n${i}" value="present" class="green">
+<input type="radio" name="n${i}" value="absent" class="red">
+<input type="radio" name="n${i}" value="noteat" class="yellow">
+</td>
+
+`;
+
+}
+
+function calculate(){
+
+let present=0;
+let absent=0;
+let noteat=0;
+
+for(let i=1;i<=30;i++){
+
+let m=document.querySelector(`input[name="m${i}"]:checked`);
+let n=document.querySelector(`input[name="n${i}"]:checked`);
+
+if(m){
+if(m.value=="present") present++;
+else if(m.value=="absent") absent++;
+else if(m.value=="noteat") noteat++;
+}
+
+if(n){
+if(n.value=="present") present++;
+else if(n.value=="absent") absent++;
+else if(n.value=="noteat") noteat++;
+}
+
+}
+
+let bonus=Math.floor(noteat/4);
+
+present=present+bonus;
+
+document.getElementById("result").innerHTML=
+
+"Present Meals: "+present+
+"<br>Absent: "+absent+
+"<br>Not Eating: "+noteat+
+"<br>Bonus Present (4 not eating = 1 present): "+bonus;
+
+}
+
+</script>
+
+</body>
+</html>
